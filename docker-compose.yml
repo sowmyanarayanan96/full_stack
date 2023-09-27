@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  frontend:
+    container_name: react_frontend
+    build:
+      context: ./clientend   # Path to your React.js app's Dockerfile and source code
+    ports:
+      - 3000:3000           # Map the host's port 3000 to the container's port 3000
+    depends_on:
+      - backend             # Ensure the backend service is running before starting the frontend
+    networks:
+      - app_network
+
+  backend:
+    container_name: fastapi_backend
+    build:
+      context: ./backend    # Path to your FastAPI app's Dockerfile and source code
+    ports:
+      - 8000:8000           # Map the host's port 8000 to the container's port 8000
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
